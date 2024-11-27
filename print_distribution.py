@@ -13,16 +13,15 @@ def steady_state_distribution(P, tol=1e-10, max_iter=1000):
     return pi
  
 
-def main():
+def print_distribution(extra_prop):
     # 定义状态空间
     states = ["C0", "C1", "C2", "C3"]
     
     # 初始化转移概率矩阵
     n = len(states)
     transition_matrix = np.zeros((n, n))
-    
-    extra_prop=0.020400850017431443
-    # extra_prop=0.0
+
+
     mats = get_guessed_mats(extra_prop)
     transition_matrix = mats[0] + mats[1]
 
@@ -45,4 +44,5 @@ def main():
     print("最终概率:", prop)
 
 if __name__ == '__main__':
-    main()
+    extra_prop = 0.020400850017431443
+    print_distribution(extra_prop)
