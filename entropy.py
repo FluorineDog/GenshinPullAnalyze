@@ -25,5 +25,5 @@ def unittest():
     init = np.array([0, 1, 0, 0])
     delta_entropy = calc_entropy(seq, all_trans_mats, init, 2)
 
-if __name__ == '__unittest__':
+if __name__ == '__main__':
     unittest() 

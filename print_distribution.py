@@ -43,6 +43,6 @@ def print_distribution(extra_prop):
     prop = np.sum(pi @ mats[1])
     print("最终概率:", prop)
 
-if __name__ == '__unittest__':
+if __name__ == '__main__':
     extra_prop = 0.020400850017431443
     print_distribution(extra_prop)
