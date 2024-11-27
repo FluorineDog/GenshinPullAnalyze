@@ -1,5 +1,5 @@
-import calc_entropy
 import parse_file
+import numpy as np
 
 def get_guessed_mats(extra_prop):
     n = 4
