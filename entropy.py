@@ -10,7 +10,6 @@ def calc_entropy(sequence, transfer_mats, init_prop_vec, scale_coef):
         mat = transfer_mats[index]
         prop_vec = prop_vec @ mat
         prop_vec *= scale_coef
-        print(prop_vec)
     prop = np.log(np.sum(prop_vec))
     return prop
 
@@ -22,7 +21,6 @@ def main():
     seq = [int(ch) for ch in "001001001001"]
     init = np.array([0, 1, 0, 0])
     delta_entropy = calc_entropy(seq, all_trans_mats, init, 2)
-    print(delta_entropy)
 
 if __name__ == '__main__':
     main() 
