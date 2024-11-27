@@ -30,7 +30,7 @@ def parse_file(file_path):
     return parsed_data
 
 
-if __name__ == '__main__':
+if __name__ == '__unittest__':
     file_path = 'resources/log.txt'  # 替换为你的文件路径
     raw_data = parse_file(file_path)
     print(raw_data)

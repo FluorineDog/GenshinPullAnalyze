@@ -45,5 +45,5 @@ def main():
     mle_prop = ternary_search(f, 0.0, 0.2)
     print("MLE of extra_prop =", mle_prop)
 
-if __name__ == '__main__':
+if __name__ == '__unittest__':
     main()
