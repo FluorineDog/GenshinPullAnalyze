@@ -40,7 +40,7 @@ def print_distribution(extra_prop):
     pi = steady_state_distribution(transition_matrix)
     print("稳态分布:", pi)
     
-    prop = np.sum(pi @ mats[1])
+    prop = 1 - np.sum(pi @ mats[0])
     print("最终概率:", prop)
 
 if __name__ == '__main__':
