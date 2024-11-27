@@ -41,7 +41,7 @@ def print_distribution(extra_prop):
     print("稳态分布:", pi)
     
     prop = 1 - np.sum(pi @ mats[0])
-    print("最终概率:", prop)
+    print("最终不歪概率:", prop)
 
 if __name__ == '__main__':
     extra_prop = 0.020400850017431443
