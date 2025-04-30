@@ -31,14 +31,17 @@ def get_full_sequence(trans_mats, max_length):
     return res
 
 def get_state(seq):
-    count = 1 
+    state = 1 
     for i in seq:
-        count += i * 2 - 1
-        if count == 4:
-            count = 1
-        elif count == -1:
-            count = 0
-    return count
+        if state == 3:
+            if i != 1:
+                return None
+            state = 1
+            continue
+        state += 1 - i * 2
+        if state == -1:
+            state = 0
+    return state
              
 
 def calc_ratio_mat(trans_mats, max_length, required_state):
@@ -56,6 +59,9 @@ def calc_ratio_mat(trans_mats, max_length, required_state):
             state = get_state(subseq)
             if state != required_state:
                 continue
+            if sum_of_seq == 6 and len == 8:
+                print(seq_bin, log_prop)
+
             prop = np.exp(log_prop) if log_prop != -np.inf else 0
             sum_prop[len, sum_of_seq] += prop
             sum_prop_1[len, sum_of_seq] += prop * is_hit
@@ -110,3 +116,6 @@ def print_distribution(extra_prop):
 if __name__ == '__main__':
     extra_prop = 0
     print_distribution(extra_prop)
+    # seq_bin = '00100100'
+    # seq = [int(ch) for ch in seq_bin]
+    # print(get_state(seq))
