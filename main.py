@@ -1,11 +1,11 @@
-from guessed_mats import get_guessed_mats
+from guessed_mats import *
 from entropy import calc_entropy
 from parse_file import parse_file
 from print_distribution import print_distribution
 import numpy as np
 
 def sum_entropy(workloads, extra_prop):
-    trans_mats = get_guessed_mats(extra_prop) 
+    trans_mats = get_2way_mat(extra_prop)
     all_entropy = 0.0
     init_vec = np.array([0, 1.0, 0, 0])
     for arr, freq in workloads:

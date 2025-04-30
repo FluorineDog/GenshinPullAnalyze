@@ -23,7 +23,7 @@ def print_distribution(extra_prop):
 
 
     mats = get_guessed_mats(extra_prop)
-    transition_matrix = mats[0] + mats[1]
+    transition_matrix = mats[0] + mats[1] + mats[2]
 
     # 可视化状态名和矩阵（可选）
     print("\n带有状态名的转移概率矩阵:")
