@@ -141,16 +141,18 @@ def analyze_workload(workloads):
             final_res[key] += cnt
     return final_res
 
-
-if __name__ == '__main__':
-    pass
-    workloads = parse_file('resources/workload2.txt')
+def print_workload(workloads):
     aw = analyze_workload(workloads)
     res = calc_ratio_mat(aw, 15, 2)
     print_result(res)
 
-    # extra_prop = 0
-    # print_all(extra_prop, 2)
-    # seq_bin = '00100100'
-    # seq = [int(ch) for ch in seq_bin]
-    # print(get_state(seq))
+
+if __name__ == '__main__':
+    extra_prop = 0
+    print_all(extra_prop, 2)
+    seq_bin = '00100100'
+    seq = [int(ch) for ch in seq_bin]
+    print(get_state(seq))
+
+    workloads = parse_file('resources/workload2.txt')
+    print_workload(workloads)
