@@ -103,7 +103,7 @@ def print_distribution(extra_prop):
     print("最终不歪概率:", prop)
     print("最终概率:", [prop0, prop1, prop2])
 
-    res = calc_ratio_mat(mats_2way, 10, 2)
+    res = calc_ratio_mat(mats_2way, 15, 2)
     # print this np.array in a table format
     print("wtf:")
     for j in range(res.shape[0]):
