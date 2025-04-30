@@ -25,8 +25,10 @@ def get_full_sequence(trans_mats, max_length):
     for i in range(2**max_length):
         seq_bin = bin(i)[2:].zfill(max_length)
         seq = [int(ch) for ch in seq_bin]
-        entropy = calc_entropy(seq, trans_mats, init, 2)
-        res[seq_bin] = entropy
+        log_prop = calc_entropy(seq, trans_mats, init, 2)
+
+        prop = np.exp(log_prop) if log_prop != -np.inf else 0
+        res[seq_bin] = prop
     
     return res
 
@@ -45,27 +47,25 @@ def get_state(seq):
     return state
              
 
-def calc_ratio_mat(trans_mats, max_length, required_state):
-    full_seqs = get_full_sequence(trans_mats, max_length)
+def calc_ratio_mat(full_seqs, max_length, required_state):
     sum_prop = np.zeros((max_length, max_length))
     sum_prop_1 = np.zeros((max_length, max_length))
 
     # sort by entropy  
-    for len in range(0, max_length):
-        for seq_bin, log_prop in full_seqs.items():
+    for length in range(0, max_length):
+        for seq_bin, prop in full_seqs.items():
             seq = [int(ch) for ch in seq_bin]
-            is_hit = seq[len]
-            subseq = seq[0:len]
-            sum_of_seq = len - sum(subseq)
+            if len(seq) <= length:
+                continue
+            is_hit = seq[length]
+            subseq = seq[0:length]
+            sum_of_seq = length - sum(subseq)
             state = get_state(subseq)
             if state != required_state:
                 continue
-            if sum_of_seq == 6 and len == 8:
-                print(seq_bin, log_prop)
 
-            prop = np.exp(log_prop) if log_prop != -np.inf else 0
-            sum_prop[len, sum_of_seq] += prop
-            sum_prop_1[len, sum_of_seq] += prop * is_hit
+            sum_prop[length, sum_of_seq] += prop
+            sum_prop_1[length, sum_of_seq] += prop * is_hit
     ratio = sum_prop_1 / sum_prop
     return ratio
 
@@ -104,7 +104,8 @@ def print_distribution(extra_prop, required_state):
     print("最终不歪概率:", prop)
     print("最终概率:", [prop0, prop1, prop2])
 
-    res = calc_ratio_mat(mats_2way, 15, required_state)
+    full_seqs = get_full_sequence(mats_2way, 15)
+    res = calc_ratio_mat(full_seqs, 15, required_state)
     # print this np.array in a table format
     print("wtf:")
 
@@ -123,7 +124,7 @@ def print_distribution(extra_prop, required_state):
 
 if __name__ == '__main__':
     extra_prop = 0
-    print_distribution(extra_prop)
+    print_distribution(extra_prop, 2)
     # seq_bin = '00100100'
     # seq = [int(ch) for ch in seq_bin]
     # print(get_state(seq))
