@@ -106,7 +106,14 @@ def print_distribution(extra_prop):
     res = calc_ratio_mat(mats_2way, 15, 2)
     # print this np.array in a table format
     print("wtf:")
+
+    print(f" ", end="\t")
+    for i in range(res.shape[1]):
+        print(f"{i}", end="\t")
+    """  """print()
+
     for j in range(res.shape[0]):
+        print(f"{j}", end="\t")
         for i in range(res.shape[1]):
             print(f"{res[i, j]:.3f}", end="\t")
         print()
