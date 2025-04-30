@@ -44,7 +44,9 @@ def main():
     workloads = parse_file('resources/workload2.txt')
     f = lambda extra_prop: sum_entropy(workloads, extra_prop)
     mle_prop = ternary_search(f, 0.0, 0.2)
+    entropy = f(mle_prop)
     print("MLE of extra_prop =", mle_prop)
+    print("entropy =", entropy)
     print_distribution(mle_prop)
 
 if __name__ == '__main__':

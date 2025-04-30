@@ -1,7 +1,7 @@
 import parse_file
 import numpy as np
 
-def get_guessed_mats(extra_prop):
+def get_guessed_mats1(extra_prop):
     n = 4
     miss_matrix = np.zeros((n, n))
     hit_matrix = np.zeros((n, n))
@@ -16,3 +16,25 @@ def get_guessed_mats(extra_prop):
     hit_matrix[0, 0] = 0.5
 
     return [miss_matrix, hit_matrix]
+
+def get_guessed_mats2(extra_prop):
+    n = 4
+    miss_matrix = np.zeros((n, n))
+    hit_matrix = np.zeros((n, n))
+    
+    miss_matrix[0, 1] = 0.5 - extra_prop
+    miss_matrix[1, 2] = 0.5 - extra_prop
+    miss_matrix[2, 3] = 0.5
+    miss_matrix[1, 3] = extra_prop
+    miss_matrix[0, 2] = extra_prop
+
+    hit_matrix[3, 1] = 1
+    hit_matrix[2, 1] = 0.5 
+    hit_matrix[1, 0] = 0.5 
+    hit_matrix[0, 0] = 0.5
+
+    return [miss_matrix, hit_matrix]
+
+
+def get_guessed_mats(extra_prop):
+    return get_guessed_mats1(extra_prop)
