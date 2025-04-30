@@ -1,7 +1,7 @@
 from guessed_mats import *
 from entropy import calc_entropy
 from parse_file import parse_file
-from print_distribution import print_distribution
+from print_distribution import print_all
 import numpy as np
 
 def sum_entropy(workloads, extra_prop):
@@ -47,7 +47,7 @@ def main():
     entropy = f(mle_prop)
     print("MLE of extra_prop =", mle_prop)
     print("entropy =", entropy)
-    print_distribution(mle_prop, 2)
+    print_all(mle_prop, 2)
 
 if __name__ == '__main__':
     main()

@@ -2,6 +2,7 @@
 import numpy as np
 from guessed_mats import *
 from entropy import calc_entropy
+from collections import defaultdict
  
 def steady_state_distribution(P, tol=1e-10, max_iter=1000):
     n = P.shape[0]
@@ -13,11 +14,6 @@ def steady_state_distribution(P, tol=1e-10, max_iter=1000):
         pi = pi_new
     return pi
  
-
-    
-    
-
-
 def get_full_sequence(trans_mats, max_length):
     res = dict()
     init = np.array([0, 1, 0, 0])
@@ -84,18 +80,14 @@ def print_result(res):
  
 
 
-def print_distribution(extra_prop, required_state):
+def print_distribution(mats):
     # 定义状态空间
-    states = ["C0", "C1", "C2", "C3"]
+    n = len(mats[0])
+    states = [ "C" + str(i) for i in range(n)]
     
     # 初始化转移概率矩阵
-    n = len(states)
     transition_matrix = np.zeros((n, n))
-
-
-    mats = get_guessed_mats(extra_prop)
     transition_matrix = mats[0] + mats[1] + mats[2]
-    mats_2way = [mats[0], mats[1] + mats[2]]
 
     # 可视化状态名和矩阵（可选）
     print("\n带有状态名的转移概率矩阵:")
@@ -119,14 +111,37 @@ def print_distribution(extra_prop, required_state):
     print("最终不歪概率:", prop)
     print("最终概率:", [prop0, prop1, prop2])
 
+def print_all(extra_prop, required_state):
+    mats = get_guessed_mats(extra_prop)
+    print_distribution(mats)
+    mats_2way = [mats[0], mats[1] + mats[2]]
     full_seqs = get_full_sequence(mats_2way, 15)
     res = calc_ratio_mat(full_seqs, 15, required_state)
     print_result(res)
-   
+
+def analyze_workload(workloads):
+    # TODO how to fuck it ?
+    final_res = defaultdict(float)   
+    for seq, cnt in workloads:
+        init = 0
+        length = len(seq)
+        for i in range(length):
+            if (get_state(seq[init:i]) == 3):
+                key = seq[init: i]  
+                key = ''.join(map(str, key))
+                final_res[key] += cnt
+                init = i + 1
+
+        if init != length:
+            key = seq[init: length]
+            key = ''.join(map(str, key))
+            final_res[key] += cnt
+    return final_res
+
 
 if __name__ == '__main__':
     extra_prop = 0
-    print_distribution(extra_prop, 2)
+    print_all(extra_prop, 2)
     # seq_bin = '00100100'
     # seq = [int(ch) for ch in seq_bin]
     # print(get_state(seq))
