@@ -69,6 +69,21 @@ def calc_ratio_mat(full_seqs, max_length, required_state):
     ratio = sum_prop_1 / sum_prop
     return ratio
 
+def print_result(res):
+    # print this np.array in a table format
+    print(f" ", end="\t")
+    for i in range(res.shape[1]):
+        print(f"{i}", end="\t")
+    print()
+
+    for j in range(res.shape[0]):
+        print(f"{j}", end="\t")
+        for i in range(res.shape[1]):
+            print(f"{res[i, j]:.3f}", end="\t")
+        print()
+ 
+
+
 def print_distribution(extra_prop, required_state):
     # 定义状态空间
     states = ["C0", "C1", "C2", "C3"]
@@ -106,21 +121,8 @@ def print_distribution(extra_prop, required_state):
 
     full_seqs = get_full_sequence(mats_2way, 15)
     res = calc_ratio_mat(full_seqs, 15, required_state)
-    # print this np.array in a table format
-    print("wtf:")
-
-    print(f" ", end="\t")
-    for i in range(res.shape[1]):
-        print(f"{i}", end="\t")
-    print()
-
-    for j in range(res.shape[0]):
-        print(f"{j}", end="\t")
-        for i in range(res.shape[1]):
-            print(f"{res[i, j]:.3f}", end="\t")
-        print()
-
-
+    print_result(res)
+   
 
 if __name__ == '__main__':
     extra_prop = 0
