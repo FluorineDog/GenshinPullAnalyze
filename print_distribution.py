@@ -1,6 +1,7 @@
 #python
 import numpy as np
-from guessed_mats import get_guessed_mats
+from guessed_mats import *
+from entropy import calc_entropy
  
 def steady_state_distribution(P, tol=1e-10, max_iter=1000):
     n = P.shape[0]
@@ -13,6 +14,54 @@ def steady_state_distribution(P, tol=1e-10, max_iter=1000):
     return pi
  
 
+    
+    
+
+
+def get_full_sequence(trans_mats, max_length):
+    res = dict()
+    init = np.array([0, 1, 0, 0])
+    # generate all 0/1 string sequence with length 10
+    for i in range(2**max_length):
+        seq_bin = bin(i)[2:].zfill(max_length)
+        seq = [int(ch) for ch in seq_bin]
+        entropy = calc_entropy(seq, trans_mats, init, 2)
+        res[seq_bin] = entropy
+    
+    return res
+
+def get_state(seq):
+    count = 1 
+    for i in seq:
+        count += i * 2 - 1
+        if count == 4:
+            count = 1
+        elif count == -1:
+            count = 0
+    return count
+             
+
+def calc_ratio_mat(trans_mats, max_length, required_state):
+    full_seqs = get_full_sequence(trans_mats, max_length)
+    sum_prop = np.zeros((max_length, max_length))
+    sum_prop_1 = np.zeros((max_length, max_length))
+
+    # sort by entropy  
+    for len in range(0, max_length):
+        for seq_bin, log_prop in full_seqs.items():
+            seq = [int(ch) for ch in seq_bin]
+            is_hit = seq[len]
+            subseq = seq[0:len]
+            sum_of_seq = len - sum(subseq)
+            state = get_state(subseq)
+            if state != required_state:
+                continue
+            prop = np.exp(log_prop) if log_prop != -np.inf else 0
+            sum_prop[len, sum_of_seq] += prop
+            sum_prop_1[len, sum_of_seq] += prop * is_hit
+    ratio = sum_prop_1 / sum_prop
+    return ratio
+
 def print_distribution(extra_prop):
     # 定义状态空间
     states = ["C0", "C1", "C2", "C3"]
@@ -24,6 +73,7 @@ def print_distribution(extra_prop):
 
     mats = get_guessed_mats(extra_prop)
     transition_matrix = mats[0] + mats[1] + mats[2]
+    mats_2way = [mats[0], mats[1] + mats[2]]
 
     # 可视化状态名和矩阵（可选）
     print("\n带有状态名的转移概率矩阵:")
@@ -47,6 +97,16 @@ def print_distribution(extra_prop):
     print("最终不歪概率:", prop)
     print("最终概率:", [prop0, prop1, prop2])
 
+    res = calc_ratio_mat(mats_2way, 10, 2)
+    # print this np.array in a table format
+    print("wtf:")
+    for j in range(res.shape[0]):
+        for i in range(res.shape[1]):
+            print(f"{res[i, j]:.3f}", end="\t")
+        print()
+
+
+
 if __name__ == '__main__':
-    extra_prop = 0.01908483076581017
+    extra_prop = 0
     print_distribution(extra_prop)

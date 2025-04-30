@@ -13,8 +13,9 @@ def calc_entropy(sequence, transfer_mats, init_prop_vec, scale_coef):
         mat = transfer_mats[index]
         prop_vec = prop_vec @ mat
         prop_vec *= scale_coef
-    prop = np.log(np.sum(prop_vec))
-    return prop
+    prop = np.sum(prop_vec)
+    log_prop = np.log(prop) if prop > 0 else -np.inf
+    return log_prop
 
 def unittest():
     # 定义状态空间
