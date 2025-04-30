@@ -82,7 +82,7 @@ def print_result(res):
 
 def print_distribution(mats):
     # 定义状态空间
-    n = len(mats[0])
+    n = mats[0].shape[0]
     states = [ "C" + str(i) for i in range(n)]
     
     # 初始化转移概率矩阵
