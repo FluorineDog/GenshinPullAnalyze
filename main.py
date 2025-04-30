@@ -42,13 +42,15 @@ def ternary_search(f, left, right, epsilon=1e-9):
 
 def main():
     workloads = parse_file('resources/workload2.txt')
+    # workloads = [(seq[:-2], cnt) for seq, cnt in workloads if len(seq) > 2]
     f = lambda extra_prop: sum_entropy(workloads, extra_prop)
     mle_prop = ternary_search(f, 0.0, 0.2)
     entropy = f(mle_prop)
     print("MLE of extra_prop =", mle_prop)
     print("entropy =", entropy)
     print_all(mle_prop, 2)
-    print("workloads analyze:")
+    print()
+    print("original workloads analyze:")
     print_workload(workloads)
 
 if __name__ == '__main__':
