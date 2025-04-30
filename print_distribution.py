@@ -34,6 +34,7 @@ def get_state(seq):
     state = 1 
     for i in seq:
         if state == 3:
+            return None
             if i != 1:
                 return None
             state = 1
@@ -68,7 +69,7 @@ def calc_ratio_mat(trans_mats, max_length, required_state):
     ratio = sum_prop_1 / sum_prop
     return ratio
 
-def print_distribution(extra_prop):
+def print_distribution(extra_prop, required_state):
     # 定义状态空间
     states = ["C0", "C1", "C2", "C3"]
     
@@ -103,14 +104,14 @@ def print_distribution(extra_prop):
     print("最终不歪概率:", prop)
     print("最终概率:", [prop0, prop1, prop2])
 
-    res = calc_ratio_mat(mats_2way, 15, 2)
+    res = calc_ratio_mat(mats_2way, 15, required_state)
     # print this np.array in a table format
     print("wtf:")
 
     print(f" ", end="\t")
     for i in range(res.shape[1]):
         print(f"{i}", end="\t")
-    """  """print()
+    print()
 
     for j in range(res.shape[0]):
         print(f"{j}", end="\t")

@@ -47,7 +47,7 @@ def main():
     entropy = f(mle_prop)
     print("MLE of extra_prop =", mle_prop)
     print("entropy =", entropy)
-    print_distribution(mle_prop)
+    print_distribution(mle_prop, 1)
 
 if __name__ == '__main__':
     main()
