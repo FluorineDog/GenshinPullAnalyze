@@ -3,6 +3,7 @@ import numpy as np
 from guessed_mats import *
 from entropy import calc_entropy
 from collections import defaultdict
+from parse_file import parse_file
  
 def steady_state_distribution(P, tol=1e-10, max_iter=1000):
     n = P.shape[0]
@@ -126,7 +127,8 @@ def analyze_workload(workloads):
         init = 0
         length = len(seq)
         for i in range(length):
-            if (get_state(seq[init:i]) == 3):
+            state = get_state(seq[init:i])
+            if (state == 3):
                 key = seq[init: i]  
                 key = ''.join(map(str, key))
                 final_res[key] += cnt
@@ -135,13 +137,20 @@ def analyze_workload(workloads):
         if init != length:
             key = seq[init: length]
             key = ''.join(map(str, key))
+            # print(key, "$")
             final_res[key] += cnt
     return final_res
 
 
 if __name__ == '__main__':
-    extra_prop = 0
-    print_all(extra_prop, 2)
+    pass
+    workloads = parse_file('resources/workload2.txt')
+    aw = analyze_workload(workloads)
+    res = calc_ratio_mat(aw, 15, 2)
+    print_result(res)
+
+    # extra_prop = 0
+    # print_all(extra_prop, 2)
     # seq_bin = '00100100'
     # seq = [int(ch) for ch in seq_bin]
     # print(get_state(seq))
