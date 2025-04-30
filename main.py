@@ -1,6 +1,7 @@
 from guessed_mats import get_guessed_mats
 from entropy import calc_entropy
 from parse_file import parse_file
+from print_distribution import print_distribution
 import numpy as np
 
 def sum_entropy(workloads, extra_prop):
@@ -40,10 +41,11 @@ def ternary_search(f, left, right, epsilon=1e-9):
     return (left + right) / 2
 
 def main():
-    workloads = parse_file('resources/log.txt')
+    workloads = parse_file('resources/workload2.txt')
     f = lambda extra_prop: sum_entropy(workloads, extra_prop)
     mle_prop = ternary_search(f, 0.0, 0.2)
     print("MLE of extra_prop =", mle_prop)
+    print_distribution(mle_prop)
 
 if __name__ == '__main__':
     main()

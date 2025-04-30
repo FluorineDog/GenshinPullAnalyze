@@ -19,10 +19,13 @@ def parse_file(file_path):
         parts = line.strip().split(')')
         # 第一部分是序列，第二部分是计数
         sequence_str = parts[0]
-        count = int(parts[1])
+        # remove , from parts[1]
+        count_str = parts[1].replace(',', '')
+        
+        count = int(count_str)
         
         # 处理序列字符串
-        sequence_str = sequence_str.strip('(')
+        sequence_str = sequence_str.replace('(', '')
 
         sequence = [int(num) for num in sequence_str.split(',') if num != '']
         parsed_data.append((sequence, count))
@@ -31,6 +34,7 @@ def parse_file(file_path):
 
 
 if __name__ == '__main__':
-    file_path = 'resources/log.txt'  # 替换为你的文件路径
+    file_path = 'resources/workload2.txt'  # 替换为你的文件路径
     raw_data = parse_file(file_path)
+    
     print(raw_data)

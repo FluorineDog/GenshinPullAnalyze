@@ -44,5 +44,5 @@ def print_distribution(extra_prop):
     print("最终不歪概率:", prop)
 
 if __name__ == '__main__':
-    extra_prop = 0.020400850017431443
+    extra_prop = 0.01908483076581017
     print_distribution(extra_prop)
