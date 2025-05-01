@@ -131,15 +131,23 @@ def analyze_workload(workloads):
             if (state == 3):
                 key = seq[init: i]  
                 key = ''.join(map(str, key))
+                key += '1'
                 final_res[key] += cnt
                 init = i + 1
 
         if init != length:
             key = seq[init: length]
+            state = get_state(seq[init:length])
             key = ''.join(map(str, key))
             # print(key, "$")
+            if state==3:
+                key += '1'
             final_res[key] += cnt
     return final_res
+
+def print_raw_workload(res):
+    for key, value in res.items():
+        print(f"{key} -> {value}")
 
 def print_workload(workloads):
     aw = analyze_workload(workloads)
@@ -148,11 +156,14 @@ def print_workload(workloads):
 
 
 if __name__ == '__main__':
-    extra_prop = 0
-    print_all(extra_prop, 2)
-    seq_bin = '00100100'
-    seq = [int(ch) for ch in seq_bin]
-    print(get_state(seq))
+    # extra_prop = 0
+    # print_all(extra_prop, 2)
+    # seq_bin = '00100100'
+    # seq = [int(ch) for ch in seq_bin]
+    # print(get_state(seq))
 
     workloads = parse_file('resources/workload2.txt')
-    print_workload(workloads)
+    # print_workload(workloads)
+
+    aw = analyze_workload(workloads)
+    print_raw_workload(aw)
