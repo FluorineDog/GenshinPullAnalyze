@@ -60,6 +60,8 @@ def calc_ratio_mat(full_seqs, max_length, required_state):
             state = get_state(subseq)
             if state != required_state:
                 continue
+            # if length == len(seq) - 1:
+                # continue
 
             sum_prop[length, sum_of_seq] += prop
             sum_prop_1[length, sum_of_seq] += prop * is_hit
@@ -122,7 +124,7 @@ def print_all(extra_prop, required_state):
 
 def analyze_workload(workloads):
     # TODO how to fuck it ?
-    final_res = defaultdict(float)   
+    final_res = defaultdict(int)   
     for seq, cnt in workloads:
         init = 0
         length = len(seq)
@@ -147,7 +149,8 @@ def analyze_workload(workloads):
 
 def print_raw_workload(res):
     for key, value in res.items():
-        print(f"{key} -> {value}")
+        for i in range(value):
+            print(f"{key}")
 
 def print_workload(workloads):
     aw = analyze_workload(workloads)
@@ -163,7 +166,7 @@ if __name__ == '__main__':
     # print(get_state(seq))
 
     workloads = parse_file('resources/workload2.txt')
-    # print_workload(workloads)
+    print_workload(workloads)
 
-    aw = analyze_workload(workloads)
-    print_raw_workload(aw)
+    # aw = analyze_workload(workloads)
+    # print_raw_workload(aw)
