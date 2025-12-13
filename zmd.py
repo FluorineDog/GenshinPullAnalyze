@@ -60,7 +60,7 @@ def next_state_after_pull(a, b, c, got_6star, got_up, force_big_guarantee=False)
     
     # 2. 检查是否触发赠送限定up（240抽赠送）
     if b == 239:  # 当前是第239抽，下一抽是第240抽
-        a_new = (a_new + 1) % 6
+        a_new = a_new + 1
         if a_new == 0:  # 如果超过5个，重置为0
             b_new = 0  # 同时重置b
     
@@ -71,12 +71,14 @@ def next_state_after_pull(a, b, c, got_6star, got_up, force_big_guarantee=False)
         
         if got_up:
             # 抽到up角色
-            a_new = (a_new + 1) % 6
-            if a_new == 0:  # 如果超过5个，重置为0
-                b_new = 0  # 同时重置b
+            a_new = a_new + 1
     else:
         # 没抽到6星，保底计数增加
         c_new = (c + 1) % 80
+
+    if a_new > 5:
+        a_new = 0
+        b_new = 0
     
     return a_new, b_new, c_new
 
@@ -122,33 +124,3 @@ def build_transition_matrix_with_big_guarantee():
     
     # 转换为CSR格式以提高计算效率
     return P.tocsr()
-
-# 构建矩阵
-transition_matrix = build_transition_matrix_with_big_guarantee()
-print(f"转移矩阵维度: {transition_matrix.shape}")
-print(f"非零元素数量: {transition_matrix.nnz}")
-
-# 验证特定状态的大保底触发
-def test_big_guarantee():
-    """测试大保底触发逻辑"""
-    # 测试状态：a=0, b=119, c任意
-    test_cases = [0, 10, 50, 79]
-    
-    for c in test_cases:
-        current_state = encode_state(0, 119, c)
-        
-        # 找到非零转移
-        row = transition_matrix.getrow(current_state)
-        nonzero_cols = row.nonzero()[1]
-        
-        print(f"\n状态 (a=0, b=119, c={c}):")
-        print(f"  触发大保底条件: True")
-        print(f"  转移目标状态数: {len(nonzero_cols)}")
-        
-        for col in nonzero_cols:
-            a_new, b_new, c_new = decode_state(col)
-            probability = transition_matrix[current_state, col]
-            print(f"  → (a={a_new}, b={b_new}, c={c_new}) 概率: {probability}")
-
-# 运行测试
-test_big_guarantee()
