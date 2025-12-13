@@ -72,6 +72,9 @@ def next_state_after_pull(a, b, c, got_6star, got_up, force_big_guarantee=False)
         if got_up:
             # 抽到up角色
             a_new = a_new + 1
+            if a == 0:
+                b_new = 0
+
     else:
         # 没抽到6星，保底计数增加
         c_new = (c + 1) % 80
